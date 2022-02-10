@@ -1,4 +1,6 @@
 import React from "react";
+import Link from "next/link";
+
 import ButtonIcon from "../Button/ButtonIcon";
 import { PlusCircleIcon, SearchIcon } from "@heroicons/react/solid";
 
@@ -9,7 +11,7 @@ const Navbar = () => {
         <div className="w-full relative flex justify-between lg:w-auto  px-4 lg:static lg:block lg:justify-start">
           <a
             className="text-sm font-bold leading-relaxed inline-block mr-4 py-2 whitespace-nowrap uppercase text-white"
-            href="#pablo"
+            href="/"
           >
             Smart Funding
           </a>
@@ -30,9 +32,11 @@ const Navbar = () => {
           </div>
         </div>
         <ButtonIcon label="Campaign" />
-        <ButtonIcon
-          icon={<PlusCircleIcon className="h-5 w-5 pr-1 text-sky-400" />}
-        />
+        <Link href="/campaign/new" passHref>
+          <ButtonIcon
+            icon={<PlusCircleIcon className="h-5 w-5 pr-1 text-sky-400" />}
+          />
+        </Link>
       </div>
     </nav>
   );
