@@ -1,10 +1,11 @@
-import React from "react";
+import React, { forwardRef } from "react";
 
-const Card = ({ props }) => {
+const Card = forwardRef(({ props }, ref) => {
   console.log(props);
   return (
     <a
       href={props.link}
+      ref={ref}
       className="block p-6 sm:max-w-full lg:max-w-fit bg-white rounded-lg border border-gray-200 shadow-md hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700"
     >
       <h4 className="text-white text-2xl">{props.title}</h4>
@@ -16,6 +17,6 @@ const Card = ({ props }) => {
       </p>
     </a>
   );
-};
+});
 
 export default Card;
