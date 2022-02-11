@@ -6,8 +6,8 @@
   @apply text-white
   bg-blue-700
   hover:bg-blue-800
-  focus:ring-4
-  focus:ring-blue-300
+  dark:bg-blue-600
+  dark:hover:bg-blue-700
   font-medium
   rounded-lg
   text-sm
@@ -17,7 +17,11 @@
   inline-flex
   items-center
   mr-2
-  dark:bg-blue-600
-  dark:hover:bg-blue-700
-  dark:focus:ring-blue-800;
+  /* disabled */
+  focus:text-gray-900
+  focus:bg-gray-700
+  hover:text-blue-700 focus:z-10;
+}
+.customContainer {
+  @apply container mx-auto;
 }
