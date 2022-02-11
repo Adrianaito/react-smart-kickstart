@@ -10,7 +10,12 @@ const contractInstance = new web3.eth.Contract(
   // pass the abi of the contract
   JSON.parse(CampaignFactory.interface),
   // pass the address of the contract
-  "0x2fc6cD14BAdb4d9bC6C271F0bCfa9CBb91c35322"
+
+  // mumbai
+  // "0x4fA71491131f47810C34F27820c6155F6B7cc16F"
+
+  // rinkeby
+  "0x2b075EE2d95Bd9CBcAdAD283FDCbd0d08FDFEEEc"
 );
 
 export default contractInstance;
