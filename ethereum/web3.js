@@ -11,6 +11,7 @@ if (typeof window !== "undefined" && typeof window.ethereum !== "undefined") {
 } else {
   // We are on the server *OR* the user is not running metamask
   const provider = new Web3.providers.HttpProvider(
+    // "https://polygon-mumbai.infura.io/v3/a3c08a105e064f11914a0cc6f05ebd57"
     "https://rinkeby.infura.io/v3/44788ccbfc184aba9f6d8b6ec2564e9e"
   );
   web3 = new Web3(provider);
