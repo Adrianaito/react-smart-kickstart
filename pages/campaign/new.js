@@ -13,7 +13,6 @@ const validationSchema = Yup.object({
   amount: Yup.number().required(),
 });
 const CampaignNew = () => {
-  const [errorMessage, setErrorMessage] = useState("");
   const toastId = useRef(null);
 
   const initialValues = {
@@ -22,9 +21,7 @@ const CampaignNew = () => {
   const handleSubmit = async (values) => {
     toastId.current = toast("Waiting for approval...", { autoClose: false });
     try {
-      console.log("entrou");
       const accounts = await web3.eth.getAccounts();
-      console.log(accounts);
       await factory.methods
         .createCampaign(values.amount)
         .send({
