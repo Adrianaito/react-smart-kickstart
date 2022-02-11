@@ -1,23 +1,14 @@
 import React from "react";
 
-const ShowCard = ({
-  minimumContribution,
-  balance,
-  requestsCount,
-  approversCount,
-  manager,
-}) => {
-  console.log(minimumContribution);
+const ShowCard = ({ title, meta, description }) => {
   return (
-    <div className="block p-6 sm:max-w-full lg:max-w-fit bg-white rounded-lg border border-gray-200 shadow-md hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
-      <h4 className="text-red-500 text-2xl">
-        Minimun Contribution{minimumContribution}
-      </h4>
-      <h6 className="mb-2 text-ellipsis overflow-hidden font-bold tracking-tight text-gray-900 dark:text-white">
-        {manager}
-      </h6>
-      <p className="font-normal text-gray-700 dark:text-gray-400">
-        {approversCount}
+    <div className="p-6  bg-white rounded-lg border border-gray-200 shadow-md hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
+      <p className="break-words text-ellipsis mb-2 overflow-hidden tracking-tight text-gray-900 dark:text-white text-xl">
+        {title}
+      </p>
+      <span className="text-sm text-gray-600">{meta}</span>
+      <p className="text-ellipsis mb-2 overflow-hidden tracking-tight text-gray-900 dark:text-white">
+        {description}
       </p>
     </div>
   );
