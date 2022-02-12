@@ -1,14 +1,24 @@
 import React, { useRef } from "react";
-import { Form, Formik, Field } from "formik";
+import { Form, Formik } from "formik";
 import * as Yup from "yup";
-
+import PropTypes from "prop-types";
 import { toast } from "react-toastify";
-import ButtonIcon from "../../../../components/Button/ButtonIcon";
+import router from "next/router";
+import Link from "next/link";
 
-import campaign from "../../../../ethereum/campaign";
-import web3 from "../../../../ethereum/web3";
+import ButtonIcon from "components/Button/ButtonIcon";
+import Input from "components/Input";
+import TextArea from "components/Input/TextArea";
+import { update } from "components/Toast";
 
-function NewRequest() {
+import campaign from "ethereum/campaign";
+import web3 from "ethereum/web3";
+
+const propTypes = {
+  address: PropTypes.string.isRequired,
+};
+
+const NewRequest = ({ address }) => {
   const toastId = useRef(null);
 
   const validationSchema = Yup.object({
@@ -23,8 +33,34 @@ function NewRequest() {
     recipient: "",
   };
 
-  const handleSubmit = async ({}) => {
-    console.log("handleSubmit");
+  const handleSubmit = async (values) => {
+    toastId.current = toast("Waiting for approval...", { autoClose: false });
+    const campaignInstance = campaign(address);
+    const { description, recipient, amount } = values;
+    try {
+      const accounts = await web3.eth.getAccounts();
+      await campaignInstance.methods
+        .createRequest(
+          description,
+          web3.utils.toWei(amount, "ether"),
+          recipient
+        )
+        .send({
+          from: accounts[0],
+        })
+        .then(() =>
+          update(toastId.current, "Processing transaction...", "default", true)
+        );
+      update(
+        toastId.current,
+        "New request added successfully!",
+        "success",
+        false
+      );
+      router.push(`/campaign/${address}/requests`);
+    } catch (err) {
+      update(toastId.current, err.message, "error", false);
+    }
   };
 
   return (
@@ -36,35 +72,51 @@ function NewRequest() {
       onSubmit={handleSubmit}
     >
       {({ values, isValid, setFieldValue, handleBlur }) => (
-        <>
-          {/* <pre>{JSON.stringify(values)}</pre> */}
+        <div>
+          <Link href={`/campaign/${address}/requests`} passHref>
+            <ButtonIcon label="Back" />
+          </Link>
+          <pre>{JSON.stringify(values)}</pre>
           <Form>
-            <div className="mb-6">
-              <label
-                htmlFor="base-input"
-                className="block my-2 ml-1  text-xl font-medium text-gray-900 dark:text-gray-900"
-              >
-                Description
-              </label>
-              <div className="flex">
-                <Field
-                  type="text"
-                  name="amount"
-                  onChange={(e) => setFieldValue("amount", e.target.value)}
-                  onBlur={handleBlur}
-                  className="lg:w-64 bg-gray-500 border border-gray-300 text-gray-600 lg:text-lg rounded-l-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-500 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                />
-                <span className="inline-flex items-center px-3 text-sm text-gray-900 bg-gray-200 rounded-r-md border border-r-0 border-gray-300 dark:bg-gray-600 dark:text-gray-400 dark:border-gray-600">
-                  ether
-                </span>
-              </div>
+            <div className="mb-6 w-4/5 mx-auto">
+              <Input
+                name="amount"
+                label="Amount in Ether"
+                setFieldValue={(e) => setFieldValue("amount", e.target.value)}
+                type="text"
+                onBlur={handleBlur}
+              />
+              <Input
+                name="recipient"
+                label="Recipient"
+                setFieldValue={(e) =>
+                  setFieldValue("recipient", e.target.value)
+                }
+                type="text"
+                onBlur={handleBlur}
+              />
+              <TextArea
+                name="description"
+                label="Description"
+                setFieldValue={(e) =>
+                  setFieldValue("description", e.target.value)
+                }
+                onBlur={handleBlur}
+              />
             </div>
             <ButtonIcon label="Submit" type="submit" isValid={!isValid} />
           </Form>
-        </>
+        </div>
       )}
     </Formik>
   );
-}
+};
 
+NewRequest.getInitialProps = async (props) => {
+  const { address } = props.query;
+  return {
+    address,
+  };
+};
+NewRequest.propTypes = propTypes;
 export default NewRequest;

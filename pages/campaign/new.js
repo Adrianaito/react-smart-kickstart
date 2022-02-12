@@ -1,11 +1,11 @@
-import React, { useState, useRef } from "react";
+import React, { useRef } from "react";
 import { Form, Formik, Field } from "formik";
 import * as Yup from "yup";
 import { toast } from "react-toastify";
-import router, { useRouter } from "next/router";
+import router from "next/router";
 
-import { update, success } from "../../components/Toast";
-import ButtonIcon from "../../components/Button/ButtonIcon";
+import ButtonIcon from "components/Button/ButtonIcon";
+import { update } from "components/Toast";
 import factory from "../../ethereum/factory";
 import web3 from "../../ethereum/web3";
 
@@ -38,7 +38,6 @@ const CampaignNew = () => {
       );
       router.push("/");
     } catch (err) {
-      console.log("erro", err.message);
       update(toastId.current, err.message, "error", false);
     }
   };
@@ -53,7 +52,7 @@ const CampaignNew = () => {
         onSubmit={handleSubmit}
       >
         {({ values, isValid, setFieldValue, handleBlur }) => (
-          <>
+          <div>
             <pre>{JSON.stringify(values)}</pre>
             <h1 className="text-4xl">Create Campaign!</h1>
             <Form>
@@ -79,7 +78,7 @@ const CampaignNew = () => {
               </div>
               <ButtonIcon label="Submit" type="submit" isValid={!isValid} />
             </Form>
-          </>
+          </div>
         )}
       </Formik>
     </div>
