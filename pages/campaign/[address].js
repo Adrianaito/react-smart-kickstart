@@ -1,19 +1,17 @@
 import React from "react";
-import Link from "next/link";
 import PropTypes from "prop-types";
 
-import web3 from "../../ethereum/web3";
-import campaignInstance from "../../ethereum/campaign";
+import web3 from "ethereum/web3";
+import campaignInstance from "ethereum/campaign";
 
-import ShowCard from "../../components/ShowCard";
-import ContributeForm from "../../components/ContributeForm";
-import ButtonIcon from "../../components/Button/ButtonIcon";
+import ShowCard from "components/ShowCard";
+import ContributeForm from "components/ContributeForm";
 
 const propTypes = {
-  minimumContribution: PropTypes.number.isRequired,
-  balance: PropTypes.number.isRequired,
-  requestsCount: PropTypes.number.isRequired,
-  approversCount: PropTypes.number.isRequired,
+  minimumContribution: PropTypes.string.isRequired,
+  balance: PropTypes.string.isRequired,
+  requestsCount: PropTypes.string.isRequired,
+  approversCount: PropTypes.string.isRequired,
   manager: PropTypes.string.isRequired,
   address: PropTypes.string.isRequired,
 };
@@ -26,7 +24,7 @@ const Campaign = ({
   manager,
   address,
 }) => (
-  <div className="grid grid-cols-1 md:grid-cols-4 gap-10 max-w-4/5">
+  <div className="customContainer grid grid-cols-1 md:grid-cols-4 gap-10 max-w-4/5">
     <div className="customContainer mt-5 max-w-4/5 grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-10 col-span-3">
       <ShowCard
         title={manager}
@@ -39,11 +37,6 @@ const Campaign = ({
         description="This is the minimum contribution required to contribute to this campaign"
       />
       <ShowCard
-        title={requestsCount}
-        meta="Number of Requests"
-        description="This is the number of requests made to this campaign. Requests must be approve by at least 50% of the campaign approvers"
-      />
-      <ShowCard
         title={approversCount}
         meta="Number of Approvers"
         description="This is the number of people who have contribute to this campaign"
@@ -53,12 +46,16 @@ const Campaign = ({
         meta="Campaign Balance(ether)"
         description="This is the balance left of this campaign"
       />
+      <ShowCard
+        title={requestsCount}
+        meta="Number of Requests"
+        description="This is the number of requests made to this campaign. Requests must be approve by at least 50% of the campaign approvers"
+        link={`/campaign/${address}/requests`}
+        linkLabel="View Requests"
+      />
     </div>
-    <div>
+    <div className="">
       <ContributeForm address={address} />
-      <Link href={`/campaign/${address}/requests`} passHref>
-        <ButtonIcon label="Requests" />
-      </Link>
     </div>
   </div>
 );
