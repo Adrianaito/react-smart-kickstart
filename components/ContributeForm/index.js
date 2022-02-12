@@ -3,12 +3,17 @@ import { Form, Formik, Field } from "formik";
 import * as Yup from "yup";
 import { useRouter } from "next/router";
 import { toast } from "react-toastify";
+import PropTypes from "prop-types";
 
-import { update, success } from "../../components/Toast";
-import ButtonIcon from "../../components/Button/ButtonIcon";
+import { update } from "../Toast";
+import ButtonIcon from "../Button/ButtonIcon";
 
 import campaign from "../../ethereum/campaign";
 import web3 from "../../ethereum/web3";
+
+const propTypes = {
+  address: PropTypes.string.isRequired,
+};
 
 const ContributeForm = ({ address }) => {
   const toastId = useRef(null);
@@ -20,19 +25,19 @@ const ContributeForm = ({ address }) => {
 
   const initialValues = {
     amount: "",
-    address: address,
+    address,
   };
 
-  const handleSubmit = async ({ address, amount }) => {
+  const handleSubmit = async (values) => {
     toastId.current = toast("Waiting for approval...", { autoClose: false });
-    const campaignInstance = campaign(address);
+    const campaignInstance = campaign(values.address);
     try {
       const accounts = await web3.eth.getAccounts();
       await campaignInstance.methods
         .contribute()
         .send({
           from: accounts[0],
-          value: web3.utils.toWei(amount, "ether"),
+          value: web3.utils.toWei(values.amount, "ether"),
         })
         .then(() =>
           update(toastId.current, "Processing transaction...", "default", true)
@@ -53,8 +58,8 @@ const ContributeForm = ({ address }) => {
         enableReinitialize
         onSubmit={handleSubmit}
       >
-        {({ values, isValid, setFieldValue, handleBlur }) => (
-          <>
+        {({ isValid, setFieldValue, handleBlur }) => (
+          <div>
             {/* <pre>{JSON.stringify(values)}</pre> */}
             <Form>
               <div className="mb-6">
@@ -79,11 +84,11 @@ const ContributeForm = ({ address }) => {
               </div>
               <ButtonIcon label="Submit" type="submit" isValid={!isValid} />
             </Form>
-          </>
+          </div>
         )}
       </Formik>
     </div>
   );
 };
-
+ContributeForm.propTypes = propTypes;
 export default ContributeForm;
