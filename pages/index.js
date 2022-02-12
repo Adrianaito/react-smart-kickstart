@@ -1,36 +1,35 @@
-import React, { Component } from "react";
+import React from "react";
+import PropTypes from "prop-types";
+
 import factory from "../ethereum/factory";
 import Card from "../components/Cards";
-import ButtonIcon from "../components/Button/ButtonIcon";
-import { PlusCircleIcon } from "@heroicons/react/solid";
+
+const propTypes = {
+  campaigns: PropTypes.arrayOf(PropTypes.string).isRequired,
+};
 
 const CampaignIndex = ({ campaigns }) => {
-  const renderCards = () => {
-    return campaigns.map((address) => {
+  const renderCards = () =>
+    campaigns.map((address) => {
       const items = {
         address,
         title: "Campaign Title",
         body: "Campaign Body",
         link: `/campaign/${address}`,
       };
-      console.log(campaigns);
       return <Card key={address} props={items} />;
     });
-  };
   return (
-    <>
+    <div>
       <div className="customContainer px-4">
-        <h3>Open Campaigns</h3>
-        <div className="my-5">{renderCards()}</div>
-        <ButtonIcon
-          icon={<PlusCircleIcon className="h-5 w-5 pr-1 text-sky-400" />}
-          label="Start a Campaign"
-          onClick={() => {
-            console.log("button");
-          }}
-        />
+        <h3 className="font-sans font-semibold text-2xl text-gray-800">
+          Open Campaigns
+        </h3>
+        <div className="my-5 grid grid-cols-1 md:grid-cols-3 ">
+          {renderCards()}
+        </div>
       </div>
-    </>
+    </div>
   );
 };
 
@@ -38,5 +37,7 @@ CampaignIndex.getInitialProps = async () => {
   const campaigns = await factory.methods.getDeployedCampaigns().call();
   return { campaigns };
 };
+
+CampaignIndex.propTypes = propTypes;
 
 export default CampaignIndex;
