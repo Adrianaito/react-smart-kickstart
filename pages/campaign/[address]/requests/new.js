@@ -71,14 +71,13 @@ const NewRequest = ({ address }) => {
       enableReinitialize
       onSubmit={handleSubmit}
     >
-      {({ values, isValid, setFieldValue, handleBlur }) => (
-        <div>
+      {({ isValid, setFieldValue, handleBlur }) => (
+        <div className="customContainer">
           <Link href={`/campaign/${address}/requests`} passHref>
             <ButtonIcon label="Back" />
           </Link>
-          <pre>{JSON.stringify(values)}</pre>
           <Form>
-            <div className="mb-6 w-4/5 mx-auto">
+            <div className="mb-6 w-4/5">
               <Input
                 name="amount"
                 label="Amount in Ether"
