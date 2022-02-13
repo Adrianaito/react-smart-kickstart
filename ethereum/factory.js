@@ -15,7 +15,7 @@ const contractInstance = new web3.eth.Contract(
   // "0x4fA71491131f47810C34F27820c6155F6B7cc16F"
 
   // rinkeby
-  "0x2b075EE2d95Bd9CBcAdAD283FDCbd0d08FDFEEEc"
+  "0xeE85e95262f35A9D6bD0fD8c9287892d5AE90404"
 );
 
 export default contractInstance;
