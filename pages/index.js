@@ -17,7 +17,7 @@ const CampaignIndex = ({ campaigns }) => {
         body: "Campaign Body",
         link: `/campaign/${address}`,
       };
-      return <Card key={address} props={items} />;
+      return <Card key={address} data={items} />;
     });
   return (
     <div>
