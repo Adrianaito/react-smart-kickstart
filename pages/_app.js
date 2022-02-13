@@ -8,7 +8,6 @@ const propTypes = {
   Component: PropTypes.elementType.isRequired,
 };
 function MyApp({ Component, pageProps }) {
-  console.log("MyApp pageProps", pageProps);
   return (
     <Layout>
       <Component {...pageProps} />
