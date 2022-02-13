@@ -82,9 +82,9 @@ contract Campaign {
         Request storage request = requests[index];
 
         // check if the number of approvals is 50% of the approversCount
-        require(request.approvalCount > (approversCount / 2));
+        require(request.approvalCount >= (approversCount / 2), "Not enough approvals");
         // check if the request has not been finalised
-        require(!request.complete);
+        require(!request.complete, "Request already finalized");
         // transfer the money to recipient
         request.recipient.transfer(request.value);
         request.complete = true;
