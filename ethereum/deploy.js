@@ -4,6 +4,7 @@ const Web3 = require("web3");
 const compiledFactory = require("./build/CampaignFactory.json");
 
 const provider = new HDWalletProvider(
+  // this is a throwaway account
   "bid dignity flavor explain choose review junior replace bullet always another urge",
   // "https://polygon-mumbai.infura.io/v3/a3c08a105e064f11914a0cc6f05ebd57"
   "https://rinkeby.infura.io/v3/44788ccbfc184aba9f6d8b6ec2564e9e"
