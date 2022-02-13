@@ -5,6 +5,7 @@ const compiledFactory = require("./build/CampaignFactory.json");
 
 const provider = new HDWalletProvider(
   "bid dignity flavor explain choose review junior replace bullet always another urge",
+  // "https://polygon-mumbai.infura.io/v3/a3c08a105e064f11914a0cc6f05ebd57"
   "https://rinkeby.infura.io/v3/44788ccbfc184aba9f6d8b6ec2564e9e"
 );
 const web3 = new Web3(provider);
@@ -25,4 +26,8 @@ const deploy = async () => {
   // Call provider.engine.stop() to prevent deployment from hanging in the terminal
   provider.engine.stop();
 };
-deploy();
+deploy()
+  .then(() => console.log("deployed"))
+  .catch((err) => {
+    console.log(err);
+  });
